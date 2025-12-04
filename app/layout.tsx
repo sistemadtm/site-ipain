@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Layout from "@/components/Layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,14 +12,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://indicadorprofissional.com.br'),
   title: {
-    default: "Indicador Profissional | Encontre Especialistas Qualificados",
-    template: "%s | Indicador Profissional"
+    default: "Instituto Indicador | Rede de Excelência em DTM",
+    template: "%s | Instituto Indicador"
   },
-  description: "Conectamos você aos melhores profissionais qualificados e verificados em todo o Brasil. Encontre especialistas por localização de forma rápida e segura.",
-  keywords: ["profissionais", "especialistas", "localizador", "serviços profissionais", "Brasil", "qualificados", "verificados"],
-  authors: [{ name: "Indicador Profissional" }],
-  creator: "Indicador Profissional",
-  publisher: "Indicador Profissional",
+  description: "Conectando pacientes a especialistas certificados em Dor Orofacial. Excelência clínica validada.",
+  keywords: ["DTM", "dor orofacial", "especialistas", "odontologia", "Brasil", "certificados"],
+  authors: [{ name: "Instituto Indicador" }],
+  creator: "Instituto Indicador",
+  publisher: "Instituto Indicador",
   formatDetection: {
     email: false,
     address: false,
@@ -28,22 +29,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     url: "https://indicadorprofissional.com.br",
-    siteName: "Indicador Profissional",
-    title: "Indicador Profissional | Encontre Especialistas Qualificados",
-    description: "Conectamos você aos melhores profissionais qualificados e verificados em todo o Brasil.",
+    siteName: "Instituto Indicador",
+    title: "Instituto Indicador | Rede de Excelência em DTM",
+    description: "Conectando pacientes a especialistas certificados em Dor Orofacial.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Indicador Profissional",
+        alt: "Instituto Indicador",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Indicador Profissional | Encontre Especialistas Qualificados",
-    description: "Conectamos você aos melhores profissionais qualificados e verificados em todo o Brasil.",
+    title: "Instituto Indicador | Rede de Excelência em DTM",
+    description: "Conectando pacientes a especialistas certificados em Dor Orofacial.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -70,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={inter.variable}>
       <body className="antialiased font-sans">
-        {children}
+        <Layout>{children}</Layout>
       </body>
     </html>
   );

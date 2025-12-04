@@ -1,43 +1,10 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, ShieldCheck, BookOpen, UserCheck, ChevronRight, Award, MapPin } from 'lucide-react';
-import Link from 'next/link';
-import type { Metadata } from 'next';
+import { blogService } from '../services/storage';
 
-export const metadata: Metadata = {
-  title: "Início - Instituto Indicador",
-  description: "A plataforma definitiva que conecta pacientes a especialistas certificados em Dor Orofacial. Excelência clínica validada.",
-};
-
-export default function Home() {
-  // Mock data - você pode substituir por dados reais depois
-  const latestPosts = [
-    {
-      id: 1,
-      slug: 'dtm-diagnostico',
-      title: 'DTM: Diagnóstico e Tratamento',
-      summary: 'Entenda os principais métodos de diagnóstico e tratamento para DTM.',
-      imageUrl: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800',
-      category: 'DTM',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 2,
-      slug: 'dor-orofacial',
-      title: 'Dor Orofacial: Abordagem Multidisciplinar',
-      summary: 'A importância da abordagem multidisciplinar no tratamento da dor orofacial.',
-      imageUrl: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800',
-      category: 'Dor Orofacial',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 3,
-      slug: 'sono-saude',
-      title: 'Sono e Saúde Bucal',
-      summary: 'Como a qualidade do sono impacta a saúde bucal e vice-versa.',
-      imageUrl: 'https://images.unsplash.com/photo-1541480601022-2308c0f02487?w=800',
-      category: 'Sono',
-      createdAt: new Date().toISOString()
-    }
-  ];
+const Home: React.FC = () => {
+  const latestPosts = blogService.getAll().slice(0, 3);
 
   return (
     <div className="flex flex-col bg-paper">
@@ -66,16 +33,16 @@ export default function Home() {
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Link 
-                href="/locator" 
+                to="/locator" 
                 className="group relative px-8 py-4 bg-white text-slate-900 rounded-lg font-bold uppercase tracking-wide overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all transform hover:-translate-y-1"
               >
-                <span className="relative z-10 flex items-center gap-3 justify-center">
+                <span className="relative z-10 flex items-center gap-3">
                    Localizar Especialista <Search size={18} />
                 </span>
               </Link>
               <Link 
-                href="/blog" 
-                className="px-8 py-4 bg-transparent border border-gray-700 text-gray-300 rounded-lg font-bold uppercase tracking-wide hover:border-white hover:text-white transition-colors text-center"
+                to="/blog" 
+                className="px-8 py-4 bg-transparent border border-gray-700 text-gray-300 rounded-lg font-bold uppercase tracking-wide hover:border-white hover:text-white transition-colors"
               >
                 Acessar Blog
               </Link>
@@ -207,7 +174,7 @@ export default function Home() {
                Junte-se à rede de referência que valoriza sua formação. Aumente sua visibilidade para pacientes qualificados.
              </p>
              <Link 
-               href="/login"
+               to="/login"
                className="inline-flex items-center gap-3 bg-white hover:bg-gray-100 text-slate-900 text-sm font-bold uppercase tracking-widest py-4 px-10 rounded-full transition-all shadow-glow hover:scale-105 transform duration-300"
              >
                <UserCheck size={18} />
@@ -224,14 +191,14 @@ export default function Home() {
               <span className="text-accent font-bold uppercase tracking-widest text-xs mb-2 block">Blog</span>
               <h2 className="text-4xl font-serif text-slate-900">Últimas Publicações</h2>
             </div>
-            <Link href="/blog" className="hidden sm:flex items-center gap-2 text-slate-500 font-medium hover:text-primary transition-colors group">
+            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-slate-500 font-medium hover:text-primary transition-colors group">
               Ver todo o acervo <div className="bg-slate-100 p-2 rounded-full group-hover:bg-primary group-hover:text-white transition-colors"><ChevronRight size={16} /></div>
             </Link>
           </div>
 
           <div className="grid md:grid-cols-3 gap-10">
             {latestPosts.map(post => (
-              <Link key={post.id} href={`/blog/${post.slug}`} className="group block h-full">
+              <Link key={post.id} to={`/blog/${post.slug}`} className="group block h-full">
                 <div className="relative overflow-hidden rounded-2xl mb-6 shadow-sm">
                   <div className="aspect-w-16 aspect-h-10">
                     <img 
@@ -265,4 +232,6 @@ export default function Home() {
       </section>
     </div>
   );
-}
+};
+
+export default Home;

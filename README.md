@@ -34,15 +34,98 @@ O projeto utiliza um design institucional moderno e minimalista:
    - Footer completo com redes sociais
 
 2. **Localizador (`/localizador`)**
-   - Menu completo (desktop e mobile)
-   - Sistema de busca por estado e cidade
+   - Sistema de busca por estado, cidade e especialidade
    - Filtros interativos
-   - Cards de profissionais limpos
-   - Estado vazio elegante
-   - Footer
+   - Grid de profissionais com cards limpos
+   - Links para perfis completos
+   - Design responsivo
 
 3. **Perfil do Profissional (`/profissional/[id]`)**
-   - Menu completo
+   - Header com foto e informações principais
+   - Biografia completa
+   - Lista de especialidades
+   - Informações de contato (telefone, email, website)
+   - Localização com mapa
+   - Botões de ação (contato, email)
+
+4. **Blog (`/blog`)**
+   - Listagem de artigos em grid
+   - Filtros por categoria
+   - Cards com imagem, categoria e resumo
+   - Design minimalista e profissional
+
+5. **Artigo do Blog (`/blog/[slug]`)**
+   - Hero image de destaque
+   - Conteúdo formatado com prose
+   - Informações do autor
+   - Botão de compartilhamento
+   - Artigos relacionados (sidebar)
+
+6. **Login (`/login`)**
+   - Formulário de login limpo
+   - Tabs para login/cadastro
+   - Lista de benefícios
+   - Design focado em conversão
+
+## 📁 Estrutura do Projeto
+
+```
+app/
+├── layout.tsx              # Layout global + SEO
+├── page.tsx                # Home
+├── robots.txt              # Robots
+├── sitemap.ts              # Sitemap
+├── manifest.ts             # PWA Manifest
+├── localizador/
+│   └── page.tsx           # Localizador de profissionais
+├── profissional/
+│   └── [id]/
+│       └── page.tsx       # Perfil individual
+├── blog/
+│   ├── page.tsx           # Lista de artigos
+│   └── [slug]/
+│       └── page.tsx       # Artigo individual
+├── login/
+│   └── page.tsx           # Login/Cadastro
+└── _pages/                # Componentes React Router (referência)
+    ├── Home.tsx
+    ├── Locator.tsx
+    ├── Blog.tsx
+    ├── BlogPostDetail.tsx
+    ├── DentistPublicProfile.tsx
+    ├── Dashboard.tsx
+    └── Login.tsx
+
+components/
+├── ui/                    # shadcn/ui components
+├── header.tsx            # Header reutilizável
+├── footer.tsx            # Footer reutilizável
+└── json-ld.tsx           # Structured data
+
+next.config.ts            # Next.js config
+.env.example              # Variáveis de ambiente
+```
+
+## 🛠️ Instalação
+
+```bash
+# Instalar dependências
+pnpm install
+
+# Executar em desenvolvimento
+pnpm dev
+
+# Build para produção
+pnpm build
+
+# Iniciar servidor de produção
+pnpm start
+
+# Lint
+pnpm lint
+```
+
+## 📚 Documentação Adicional
    - Banner com foto
    - Biografia completa
    - Informações de contato estilizadas

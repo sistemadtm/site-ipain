@@ -1,233 +1,136 @@
-'use client'
+import { Calendar, ArrowLeft, User, Share2 } from 'lucide-react';
+import Link from 'next/link';
+import type { Metadata } from 'next';
 
-import { use } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, User, Clock, Share2, ArrowRight } from "lucide-react";
-import Link from "next/link";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
+// Mock data - você pode substituir por dados reais depois
+const getPostBySlug = (slug: string) => {
+  const posts: Record<string, any> = {
+    'dtm-diagnostico': {
+      id: 1,
+      slug: 'dtm-diagnostico',
+      title: 'DTM: Diagnóstico e Tratamento Baseado em Evidências',
+      summary: 'Entenda os principais métodos de diagnóstico e tratamento para DTM com base nas mais recentes evidências científicas.',
+      imageUrl: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1200',
+      category: 'DTM',
+      createdAt: new Date().toISOString(),
+      content: `A Disfunção Temporomandibular (DTM) é uma condição que afeta milhões de pessoas em todo o mundo. Caracterizada por dor e disfunção na articulação temporomandibular e nos músculos da mastigação, a DTM pode impactar significativamente a qualidade de vida dos pacientes.
 
-// Dados de exemplo
-const artigos: Record<string, any> = {
-  "como-escolher-profissional-ideal": {
-    slug: "como-escolher-profissional-ideal",
-    titulo: "Como escolher o profissional ideal para suas necessidades",
-    resumo: "Dicas essenciais para encontrar e avaliar profissionais qualificados na sua região.",
-    data: "15 de Novembro, 2024",
-    autor: "Equipe Indicador",
-    categoria: "Guias",
-    tempoLeitura: "5 min",
-    imagem: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&h=600&fit=crop",
-    conteudo: `
-      <p>Encontrar o profissional ideal pode ser um desafio, mas com as estratégias certas, você pode tomar uma decisão informada e confiante.</p>
-      
-      <h2>1. Verifique as Credenciais</h2>
-      <p>Sempre confirme se o profissional possui as certificações e licenças necessárias para exercer sua atividade. No Indicador Profissional, todos os cadastrados passam por um processo de verificação.</p>
-      
-      <h2>2. Avalie a Experiência</h2>
-      <p>Considere o tempo de atuação e as especialidades do profissional. Profissionais com mais experiência em áreas específicas tendem a oferecer soluções mais eficazes.</p>
-      
-      <h2>3. Considere a Localização</h2>
-      <p>A proximidade pode ser um fator importante, especialmente se você precisar de atendimentos frequentes. Use nosso localizador para encontrar profissionais na sua região.</p>
-      
-      <h2>4. Leia Avaliações e Recomendações</h2>
-      <p>Busque feedback de outros clientes. Recomendações de pessoas confiáveis podem ser muito valiosas na sua decisão.</p>
-      
-      <h2>5. Agende uma Consulta Inicial</h2>
-      <p>Muitos profissionais oferecem uma primeira consulta para conhecer suas necessidades. Aproveite essa oportunidade para avaliar se há boa comunicação e empatia.</p>
-    `
-  },
-  "importancia-verificacao-profissional": {
-    slug: "importancia-verificacao-profissional",
-    titulo: "A importância da verificação profissional",
-    resumo: "Entenda por que é fundamental trabalhar com profissionais verificados e certificados.",
-    data: "10 de Novembro, 2024",
-    autor: "Equipe Indicador",
-    categoria: "Segurança",
-    tempoLeitura: "4 min",
-    imagem: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&h=600&fit=crop",
-    conteudo: `
-      <p>A verificação profissional é um passo crucial para garantir que você está contratando alguém qualificado e confiável.</p>
-      
-      <h2>Por que a Verificação é Importante?</h2>
-      <p>Trabalhar com profissionais verificados oferece segurança e tranquilidade. Você tem a garantia de que está lidando com alguém que possui as qualificações necessárias.</p>
-      
-      <h2>O que Verificamos</h2>
-      <p>No Indicador Profissional, verificamos documentos, certificações, histórico profissional e referências. Nosso processo rigoroso garante que apenas profissionais qualificados façam parte da nossa rede.</p>
-      
-      <h2>Benefícios da Verificação</h2>
-      <ul>
-        <li>Maior segurança nas contratações</li>
-        <li>Redução de riscos</li>
-        <li>Profissionais comprometidos com a qualidade</li>
-        <li>Transparência nas informações</li>
-      </ul>
-    `
-  }
+O diagnóstico preciso da DTM requer uma avaliação abrangente que inclui histórico médico detalhado, exame físico da ATM e músculos mastigatórios, avaliação da amplitude de movimento mandibular e palpação muscular e articular.
+
+Em casos específicos, exames de imagem podem ser necessários, como radiografias panorâmicas, tomografia computadorizada e ressonância magnética. Estes exames complementares auxiliam na identificação de alterações estruturais e no planejamento terapêutico adequado.
+
+O tratamento da DTM deve ser conservador e baseado em evidências. As principais abordagens incluem educação do paciente sobre a condição, fisioterapia orofacial especializada, uso de placas oclusais quando indicado, farmacoterapia para controle da dor e técnicas de relaxamento muscular.
+
+A abordagem multidisciplinar é fundamental para o sucesso terapêutico. A integração entre dentistas, fisioterapeutas, psicólogos e outros profissionais de saúde proporciona um tratamento mais completo e eficaz para os pacientes com DTM.
+
+O manejo adequado da DTM requer uma abordagem multidisciplinar e individualizada. A maioria dos pacientes responde bem ao tratamento conservador, evitando procedimentos invasivos e obtendo melhora significativa na qualidade de vida.`
+    }
+  };
+  
+  return posts[slug] || null;
 };
 
-const artigosRelacionados = [
-  {
-    slug: "tendencias-mercado-profissional-2024",
-    titulo: "Tendências do mercado profissional em 2024",
-    categoria: "Mercado"
-  },
-  {
-    slug: "como-preparar-primeira-consulta",
-    titulo: "Como se preparar para a primeira consulta",
-    categoria: "Guias"
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = getPostBySlug(params.slug);
+  
+  if (!post) {
+    return {
+      title: 'Post não encontrado',
+    };
   }
-];
+  
+  return {
+    title: `${post.title} | Blog Instituto Indicador`,
+    description: post.summary,
+  };
+}
 
-export default function ArtigoPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
-  const artigo = artigos[slug];
-
-  if (!artigo) {
+export default function BlogPost({ params }: { params: { slug: string } }) {
+  const post = getPostBySlug(params.slug);
+  
+  if (!post) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardContent className="pt-6 text-center">
-            <p className="text-gray-600 mb-4">Artigo não encontrado.</p>
-            <Link href="/blog">
-              <Button>Voltar ao Blog</Button>
-            </Link>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-paper flex items-center justify-center py-20">
+        <div className="text-center">
+          <h1 className="text-4xl font-serif text-slate-900 mb-4">Post não encontrado</h1>
+          <Link href="/blog" className="text-primary hover:text-accent transition-colors">
+            Voltar para o blog
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
+    <div className="bg-white min-h-screen pb-20">
       {/* Hero Image */}
-      <div className="relative h-96 overflow-hidden">
-        <img 
-          src={artigo.imagem} 
-          alt={artigo.titulo}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 p-8">
-          <div className="container mx-auto max-w-4xl">
-            <span className="inline-block px-3 py-1 bg-blue-600 text-white text-sm font-bold rounded-full mb-4">
-              {artigo.categoria}
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
-              {artigo.titulo}
-            </h1>
-            <div className="flex flex-wrap items-center gap-4 text-white/90 text-sm">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>{artigo.data}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span>{artigo.autor}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{artigo.tempoLeitura} de leitura</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <Card className="border-0 shadow-lg">
-              <CardContent className="pt-8 pb-8">
-                <div 
-                  className="prose prose-lg max-w-none
-                    prose-headings:font-bold prose-headings:text-gray-900 prose-headings:mt-8 prose-headings:mb-4
-                    prose-h2:text-2xl prose-h3:text-xl
-                    prose-p:text-gray-600 prose-p:leading-relaxed prose-p:mb-4
-                    prose-ul:text-gray-600 prose-ul:my-4
-                    prose-li:my-2
-                    prose-strong:text-gray-900 prose-strong:font-semibold"
-                  dangerouslySetInnerHTML={{ __html: artigo.conteudo }}
-                />
-
-                {/* Share */}
-                <div className="mt-12 pt-8 border-t border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600 font-medium">Compartilhar artigo:</span>
-                    <Button variant="outline" className="gap-2">
-                      <Share2 className="h-4 w-4" />
-                      Compartilhar
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
-              {/* CTA Card */}
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-600 to-teal-600 text-white overflow-hidden">
-                <CardContent className="pt-6 relative">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full blur-2xl"></div>
-                  <h3 className="text-xl font-bold mb-3 relative z-10">Precisa de um profissional?</h3>
-                  <p className="text-blue-100 mb-4 text-sm relative z-10">
-                    Encontre especialistas qualificados na sua região
-                  </p>
-                  <Link href="/localizador">
-                    <Button className="w-full bg-white text-blue-600 hover:bg-gray-100 font-bold relative z-10">
-                      Buscar Agora
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-
-              {/* Related Articles */}
-              <Card className="border-0 shadow-lg">
-                <CardContent className="pt-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">Artigos Relacionados</h3>
-                  <div className="space-y-4">
-                    {artigosRelacionados.map(relacionado => (
-                      <Link 
-                        key={relacionado.slug} 
-                        href={`/blog/${relacionado.slug}`}
-                        className="block group"
-                      >
-                        <div className="p-3 rounded-lg hover:bg-gray-50 transition">
-                          <span className="text-xs font-semibold text-blue-600 mb-1 block">
-                            {relacionado.categoria}
-                          </span>
-                          <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition leading-snug">
-                            {relacionado.titulo}
-                          </h4>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="mt-12 flex justify-center">
-          <Link href="/blog">
-            <Button variant="outline" size="lg" className="gap-2">
-              Ver todos os artigos
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+      <div className="w-full h-[400px] relative">
+        <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-12 text-white">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors">
+            <ArrowLeft size={18} /> Voltar para o Blog
           </Link>
+          <div className="flex items-center gap-4 mb-4 text-sm font-medium">
+            <span className="bg-accent text-white px-3 py-1 rounded-full uppercase tracking-wider text-xs font-bold">
+              {post.category}
+            </span>
+            <div className="flex items-center gap-1 opacity-90">
+              <Calendar size={16} />
+              {new Date(post.createdAt).toLocaleDateString('pt-BR')}
+            </div>
+          </div>
+          <h1 className="text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
+            {post.title}
+          </h1>
         </div>
       </div>
 
-      <Footer />
+      <div className="container mx-auto px-4 mt-12 grid md:grid-cols-4 gap-12">
+        {/* Main Content */}
+        <div className="md:col-span-3">
+          <div className="prose prose-lg prose-teal max-w-none text-gray-700">
+            {post.content.split('\n').filter(p => p.trim()).map((paragraph, idx) => (
+              <p key={idx} className="mb-6 leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          
+          {/* Share / Tags Footer */}
+          <div className="mt-12 pt-8 border-t border-gray-100 flex flex-wrap justify-between items-center gap-4">
+            <div className="flex items-center gap-2 text-gray-500 text-sm">
+              <User size={16} />
+              <span>Tags: {post.category}, Odontologia, Saúde</span>
+            </div>
+            <button className="flex items-center gap-2 text-primary font-bold hover:bg-teal-50 px-4 py-2 rounded-lg transition">
+              <Share2 size={18} /> Compartilhar
+            </button>
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div className="hidden md:block space-y-8">
+           <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 sticky top-24">
+             <h3 className="font-bold text-gray-900 mb-4">Sobre o Autor</h3>
+             <div className="flex items-center gap-3 mb-4">
+               <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl">
+                 IP
+               </div>
+               <div>
+                 <p className="font-bold text-sm">Equipe Editorial</p>
+                 <p className="text-xs text-gray-500">Instituto Indicador</p>
+               </div>
+             </div>
+             <p className="text-sm text-gray-600 mb-4">
+               Trazendo informações baseadas em evidências sobre dor orofacial e odontologia do sono.
+             </p>
+             <Link href="/locator" className="block w-full text-center bg-white border border-primary text-primary font-bold py-2 rounded-lg hover:bg-primary hover:text-white transition">
+               Encontrar Especialista
+             </Link>
+           </div>
+        </div>
+      </div>
     </div>
   );
 }

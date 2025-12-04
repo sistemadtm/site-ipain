@@ -1,15 +1,17 @@
-'use client';
-
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { userService } from '../services/storage';
+import { User } from '../types';
 import { Lock, Mail } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
-export default function Login() {
+interface LoginProps {
+  setUser: (user: User) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ setUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,12 +19,10 @@ export default function Login() {
     setError('');
 
     // Simulate network latency
-    setTimeout(() => {
-      // Mock login - você pode substituir por lógica real
-      if (email === 'admin@indicador.com' && password === '1234') {
-        router.push('/dashboard');
-      } else if (email === 'ana@dentista.com' && password === '1234') {
-        router.push('/dashboard');
+    setTimeout(async () => {
+      const user = await userService.login(email, password);
+      if (user) {
+        setUser(user);
       } else {
         setError('Email ou senha inválidos.');
         setIsLoading(false);
@@ -31,7 +31,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 px-4 py-20">
+    <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900">Portal do Aluno</h2>
@@ -101,4 +101,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;

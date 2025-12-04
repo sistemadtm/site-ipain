@@ -1,69 +1,11 @@
-'use client';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { blogService } from '../services/storage';
+import { Calendar, ArrowRight, Bookmark } from 'lucide-react';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Calendar, ArrowRight } from 'lucide-react';
-
-export default function Blog() {
+const Blog: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('Todos');
-
-  // Mock data
-  const posts = [
-    {
-      id: 1,
-      slug: 'dtm-diagnostico',
-      title: 'DTM: Diagnóstico e Tratamento Baseado em Evidências',
-      summary: 'Entenda os principais métodos de diagnóstico e tratamento para DTM com base nas mais recentes evidências científicas.',
-      imageUrl: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=800',
-      category: 'DTM',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 2,
-      slug: 'dor-orofacial',
-      title: 'Dor Orofacial: Abordagem Multidisciplinar',
-      summary: 'A importância da abordagem multidisciplinar no tratamento da dor orofacial e como ela beneficia os pacientes.',
-      imageUrl: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800',
-      category: 'Dor Orofacial',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 3,
-      slug: 'sono-saude',
-      title: 'Sono e Saúde Bucal: Uma Relação Bidirecional',
-      summary: 'Como a qualidade do sono impacta a saúde bucal e vice-versa. Entenda essa relação complexa.',
-      imageUrl: 'https://images.unsplash.com/photo-1541480601022-2308c0f02487?w=800',
-      category: 'Sono',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 4,
-      slug: 'bruxismo',
-      title: 'Bruxismo: Causas, Consequências e Tratamento',
-      summary: 'Tudo o que você precisa saber sobre bruxismo e como tratá-lo de forma eficaz.',
-      imageUrl: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800',
-      category: 'DTM',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 5,
-      slug: 'atm-anatomia',
-      title: 'Anatomia da ATM: Compreendendo a Articulação',
-      summary: 'Uma visão detalhada da anatomia da articulação temporomandibular e sua importância clínica.',
-      imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800',
-      category: 'Educação',
-      createdAt: new Date().toISOString()
-    },
-    {
-      id: 6,
-      slug: 'apneia-sono',
-      title: 'Apneia do Sono: O Papel do Dentista',
-      summary: 'Como os dentistas podem identificar e tratar a apneia do sono em seus pacientes.',
-      imageUrl: 'https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?w=800',
-      category: 'Sono',
-      createdAt: new Date().toISOString()
-    }
-  ];
+  const posts = blogService.getAll();
 
   const categories = ['Todos', ...Array.from(new Set(posts.map(p => p.category)))];
 
@@ -107,9 +49,9 @@ export default function Blog() {
         {/* Article Grid */}
         {filteredPosts.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {filteredPosts.map((post) => (
+            {filteredPosts.map((post, idx) => (
               <article key={post.id} className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                <Link href={`/blog/${post.slug}`} className="block relative h-64 overflow-hidden">
+                <Link to={`/blog/${post.slug}`} className="block relative h-64 overflow-hidden">
                    <div className="absolute top-4 left-4 z-10">
                      <span className="bg-white/90 backdrop-blur text-slate-900 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">
                        {post.category}
@@ -126,10 +68,10 @@ export default function Blog() {
                 <div className="flex flex-col flex-grow p-8">
                   <div className="flex items-center gap-2 text-xs text-gray-400 font-medium mb-4">
                     <Calendar size={12} />
-                    {new Date(post.createdAt).toLocaleDateString('pt-BR')}
+                    {new Date(post.createdAt).toLocaleDateString()}
                   </div>
                   
-                  <Link href={`/blog/${post.slug}`} className="block mb-4">
+                  <Link to={`/blog/${post.slug}`} className="block mb-4">
                     <h2 className="text-2xl font-serif text-slate-900 leading-tight group-hover:text-primary transition-colors">
                       {post.title}
                     </h2>
@@ -145,7 +87,7 @@ export default function Blog() {
                        <span className="text-xs text-gray-400 font-medium">Equipe Editorial</span>
                     </div>
                     <Link 
-                      href={`/blog/${post.slug}`} 
+                      to={`/blog/${post.slug}`} 
                       className="inline-flex items-center gap-2 text-slate-900 group-hover:text-accent font-bold text-xs uppercase tracking-widest transition-colors"
                     >
                       Ler <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
@@ -163,4 +105,6 @@ export default function Blog() {
       </div>
     </div>
   );
-}
+};
+
+export default Blog;
