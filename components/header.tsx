@@ -26,6 +26,9 @@ export function Header() {
             <Link href="/localizador" className="text-sm text-gray-600 hover:text-slate-900 transition font-medium">
               Localizador
             </Link>
+            <Link href="/voluntario" className="text-sm text-gray-600 hover:text-slate-900 transition font-medium">
+              Atendimento Voluntário
+            </Link>
             <Link href="/blog" className="text-sm text-gray-600 hover:text-slate-900 transition font-medium">
               Blog
             </Link>
@@ -60,6 +63,13 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Localizador
+              </Link>
+              <Link 
+                href="/voluntario" 
+                className="text-sm text-gray-600 hover:text-slate-900 transition font-medium py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Atendimento Voluntário
               </Link>
               <Link 
                 href="/blog" 

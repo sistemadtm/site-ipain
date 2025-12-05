@@ -1,4 +1,4 @@
-import { Search, ShieldCheck, BookOpen, UserCheck, ChevronRight, Award, MapPin } from 'lucide-react';
+import { Search, ShieldCheck, BookOpen, UserCheck, ChevronRight, Award, MapPin, Heart, Users, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -154,10 +154,7 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-700">
-                <ShieldCheck size={120} />
-              </div>
+            <div className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100">
               <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                 <ShieldCheck size={28} />
               </div>
@@ -167,10 +164,7 @@ export default function Home() {
               </p>
             </div>
             
-            <div className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-700">
-                <Award size={120} />
-              </div>
+            <div className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100">
               <div className="w-14 h-14 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-8 group-hover:bg-amber-600 group-hover:text-white transition-colors duration-300">
                 <Award size={28} />
               </div>
@@ -180,10 +174,7 @@ export default function Home() {
               </p>
             </div>
             
-            <div className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity transform group-hover:scale-110 duration-700">
-                <BookOpen size={120} />
-              </div>
+            <div className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100">
               <div className="w-14 h-14 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-8 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300">
                 <BookOpen size={28} />
               </div>
@@ -192,6 +183,51 @@ export default function Home() {
                 Corpo clínico conectado às últimas pesquisas e inovações tecnológicas no campo da dor orofacial.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Voluntary Care Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-20 max-w-3xl mx-auto">
+            <span className="text-teal-600 font-bold uppercase tracking-widest text-xs mb-3 block">Atendimento Social</span>
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 mb-6">Atendimento Voluntário</h2>
+            <p className="text-gray-500 font-light text-lg">
+              Conectamos pacientes que precisam de atendimento odontológico com profissionais voluntários e centros de atendimento gratuito em todo o Brasil.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Link href="/voluntario/pacientes" className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100">
+              <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                <Users size={28} />
+              </div>
+              <h3 className="text-2xl font-serif text-slate-900 mb-4">Para Pacientes</h3>
+              <p className="text-gray-600 leading-relaxed font-light">
+                Cadastre-se para receber atendimento voluntário de dentistas qualificados em sua região.
+              </p>
+            </Link>
+            
+            <Link href="/voluntario/dentistas" className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100">
+              <div className="w-14 h-14 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center mb-8 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300">
+                <Heart size={28} />
+              </div>
+              <h3 className="text-2xl font-serif text-slate-900 mb-4">Para Dentistas</h3>
+              <p className="text-gray-600 leading-relaxed font-light">
+                Visualize pacientes cadastrados por estado e ofereça atendimento voluntário.
+              </p>
+            </Link>
+            
+            <Link href="/voluntario" className="group bg-white p-10 rounded-2xl shadow-soft hover:shadow-xl transition-all duration-500 border border-gray-100">
+              <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-8 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                <GraduationCap size={28} />
+              </div>
+              <h3 className="text-2xl font-serif text-slate-900 mb-4">Centros de Atendimento</h3>
+              <p className="text-gray-600 leading-relaxed font-light">
+                Encontre universidades e instituições que oferecem atendimento gratuito em todo o Brasil.
+              </p>
+            </Link>
           </div>
         </div>
       </section>

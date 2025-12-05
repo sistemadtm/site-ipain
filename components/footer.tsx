@@ -23,6 +23,7 @@ export function Footer() {
             <h4 className="font-semibold text-slate-900 mb-4 text-sm">Navegação</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/localizador" className="text-gray-600 hover:text-slate-900 transition">Localizador</Link></li>
+              <li><Link href="/voluntario" className="text-gray-600 hover:text-slate-900 transition">Atendimento Voluntário</Link></li>
               <li><Link href="/blog" className="text-gray-600 hover:text-slate-900 transition">Blog</Link></li>
               <li><Link href="/login" className="text-gray-600 hover:text-slate-900 transition">Login</Link></li>
             </ul>
@@ -31,9 +32,9 @@ export function Footer() {
           <div>
             <h4 className="font-semibold text-slate-900 mb-4 text-sm">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-gray-600 hover:text-slate-900 transition">Termos de Uso</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-slate-900 transition">Privacidade</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-slate-900 transition">Contato</a></li>
+              <li><Link href="/termos" className="text-gray-600 hover:text-slate-900 transition">Termos de Uso</Link></li>
+              <li><Link href="/privacidade" className="text-gray-600 hover:text-slate-900 transition">Privacidade</Link></li>
+              <li><Link href="/contato" className="text-gray-600 hover:text-slate-900 transition">Contato</Link></li>
             </ul>
           </div>
         </div>
