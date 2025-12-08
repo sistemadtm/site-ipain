@@ -74,13 +74,13 @@ export default function Blog() {
   return (
     <div className="bg-paper min-h-screen">
       {/* Modern Header */}
-      <div className="bg-white py-24 border-b border-gray-100">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-block px-4 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6">
-            Blog
-          </div>
-          <h1 className="text-5xl md:text-7xl font-serif text-slate-900 mb-8 tracking-tight">Acervo Científico</h1>
-          <p className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed text-lg">
+      <div className="bg-slate-900 pt-32 pb-24 relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-800"></div>
+         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/grid-noise.png')] opacity-10"></div>
+         
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <h1 className="text-4xl md:text-6xl font-serif text-white mb-6">Acervo Científico</h1>
+          <p className="text-gray-400 font-light text-xl max-w-2xl mx-auto">
             Explorando as fronteiras da Dor Orofacial, DTM e Odontologia do Sono através de evidências e prática clínica.
           </p>
         </div>

@@ -41,107 +41,67 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-paper">
-      {/* Modern Hero Section */}
-      <section className="relative min-h-screen flex items-center bg-slate-900 overflow-hidden pt-20">
-        {/* Abstract Modern Background */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-primary opacity-20 blur-[150px] rounded-full animate-pulse"></div>
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-accent opacity-10 blur-[120px] rounded-full"></div>
+      {/* Hero Section - Problem-Solution Focused */}
+      <section className="relative bg-gradient-to-br from-slate-50 via-white to-teal-50 overflow-hidden pt-32 pb-20">
+        {/* Subtle Background Pattern */}
+        <div className="absolute inset-0 opacity-5" style={{backgroundImage: "radial-gradient(circle at 1px 1px, rgb(255 255 255) 1px, transparent 0)", backgroundSize: "40px 40px"}}></div>
         
-        <div className="container mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-16 items-center">
-          <div className="text-left animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-accent text-xs font-bold uppercase tracking-widest mb-8 backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-              Referência Nacional em DTM
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            {/* Problem Statement */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+              Dor na mandíbula? Estalos ao mastigar? Dor de cabeça frequente?
             </div>
             
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-8 leading-[1.1]">
-              Ciência e <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-200 to-teal-500">Cuidado.</span>
+            <h1 className="font-serif text-3xl md:text-5xl lg:text-6xl text-slate-900  mb-6 leading-tight">
+              Você não precisa conviver <br />
+              <span className="text-primary">com a dor.</span>
             </h1>
             
-            <p className="text-xl text-gray-400 mb-10 max-w-xl font-light leading-relaxed">
-              A plataforma definitiva que conecta pacientes a especialistas certificados em Dor Orofacial. Excelência clínica validada.
+            <p className="text-base md:text-lg text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Conectamos você a especialistas certificados em <strong className="font-semibold text-slate-900">Dor Orofacial e DTM</strong> em todo o Brasil. Diagnóstico preciso, tratamento baseado em evidências.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            {/* Primary CTA */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
               <Link 
                 href="/locator" 
-                className="group relative px-8 py-4 bg-white text-slate-900 rounded-lg font-bold uppercase tracking-wide overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all transform hover:-translate-y-1"
+                className="group px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold text-sm shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
               >
-                <span className="relative z-10 flex items-center gap-3 justify-center">
-                   Localizar Especialista <Search size={18} />
-                </span>
+                <Search size={18} />
+                Encontrar Especialista
+                <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link 
                 href="/blog" 
-                className="px-8 py-4 bg-transparent border border-gray-700 text-gray-300 rounded-lg font-bold uppercase tracking-wide hover:border-white hover:text-white transition-colors text-center"
+                className="px-6 py-3 bg-transparent border border-gray-700 text-slate-900 rounded-lg font-semibold text-sm hover:border-gray-500 hover:bg-primary hover:text-secondary transition-all"
               >
-                Acessar Blog
+                Entenda sua Condição
               </Link>
             </div>
-          </div>
 
-          {/* Abstract Interactive Element */}
-          <div className="hidden lg:block relative animate-float">
-             <div className="relative z-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl max-w-md ml-auto">
-                <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
-                  <div>
-                    <p className="text-white font-serif text-2xl">Instituto Indicador</p>
-                    <p className="text-gray-400 text-xs uppercase tracking-widest mt-1">Status da Rede</p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
-                    <ShieldCheck size={20} />
-                  </div>
-                </div>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-accent">
-                        <MapPin size={24} />
-                     </div>
-                     <div>
-                        <p className="text-white font-bold text-lg">26 Estados</p>
-                        <p className="text-gray-500 text-sm">Cobertura Nacional</p>
-                     </div>
-                  </div>
-                  
-                  <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-teal-400">
-                        <UserCheck size={24} />
-                     </div>
-                     <div>
-                        <p className="text-white font-bold text-lg">Certificação</p>
-                        <p className="text-gray-500 text-sm">Profissionais Verificados</p>
-                     </div>
-                  </div>
-
-                   <div className="flex items-center gap-4">
-                     <div className="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center text-purple-400">
-                        <BookOpen size={24} />
-                     </div>
-                     <div>
-                        <p className="text-white font-bold text-lg">Educação</p>
-                        <p className="text-gray-500 text-sm">Base Científica</p>
-                     </div>
-                  </div>
-                </div>
-
-                <div className="mt-8 pt-6 border-t border-white/10">
-                   <div className="flex -space-x-3">
-                      <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://ui-avatars.com/api/?name=Dr+A&background=random" alt=""/>
-                      <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://ui-avatars.com/api/?name=Dr+B&background=random" alt=""/>
-                      <img className="w-10 h-10 rounded-full border-2 border-slate-800" src="https://ui-avatars.com/api/?name=Dr+C&background=random" alt=""/>
-                      <div className="w-10 h-10 rounded-full border-2 border-slate-800 bg-slate-700 flex items-center justify-center text-white text-xs font-bold">+100</div>
-                   </div>
-                </div>
-             </div>
-             
-             {/* Decorative Elements */}
-             <div className="absolute -top-10 -right-10 w-32 h-32 bg-accent rounded-full opacity-20 blur-xl"></div>
-             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary rounded-full opacity-20 blur-xl"></div>
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-6 text-xs text-gray-500">
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck size={16} className="text-primary" />
+                <span>Profissionais Certificados</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <MapPin size={16} className="text-primary" />
+                <span>Cobertura Nacional</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Award size={16} className="text-primary" />
+                <span>Protocolos Validados</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-20 right-10 w-72 h-72 bg-primary rounded-full opacity-10 blur-3xl"></div>
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-accent rounded-full opacity-10 blur-3xl"></div>
       </section>
 
       {/* Modern Features Grid */}
