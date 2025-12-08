@@ -60,25 +60,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen flex flex-col font-sans bg-paper">
       
       {/* Floating Modern Header */}
-      <header 
-        className={`fixed w-full top-0 z-50 transition-all duration-300 border-b h-20 flex items-center ${
-          scrolled || isMobileMenuOpen
-            ? 'bg-white border-gray-200 shadow-md' 
-            : 'bg-transparent border-transparent'
-        }`}
-      >
+      <header className="fixed w-full top-0 z-50 transition-all duration-300 border-b border-slate-800 h-20 flex items-center bg-slate-900/95 backdrop-blur-md shadow-lg">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ${scrolled || isMobileMenuOpen ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white/10 backdrop-blur-md text-white border border-white/20'}`}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 bg-primary text-white shadow-lg shadow-primary/30">
                 <GraduationCap size={22} />
               </div>
               <div className="flex flex-col">
-                <span className={`font-serif font-bold text-xl leading-none tracking-tight transition-colors ${scrolled || isMobileMenuOpen ? 'text-slate-900' : 'text-white'}`}>
+                <span className="font-serif font-bold text-xl leading-none tracking-tight transition-colors text-white">
                   Instituto<span className="text-accent">.</span>
                 </span>
-                <span className={`text-[10px] uppercase tracking-[0.2em] mt-1 transition-colors ${scrolled || isMobileMenuOpen ? 'text-gray-500' : 'text-gray-300'}`}>
+                <span className="text-[10px] uppercase tracking-[0.2em] mt-1 transition-colors text-gray-300">
                   Indicador Profissional
                 </span>
               </div>
@@ -86,15 +80,21 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-8">
-              <NavLink to="/" label="Início" />
-              <NavLink to="/locator" label="Rede Credenciada" />
-              <NavLink to="/blog" label="Blog" />
+              <Link href="/" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
+                Início
+              </Link>
+              <Link href="/locator" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
+                Rede Credenciada
+              </Link>
+              <Link href="/blog" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
+                Blog
+              </Link>
               
-              <div className={`h-6 w-px mx-2 ${scrolled ? 'bg-gray-200' : 'bg-white/20'}`}></div>
+              <div className="h-6 w-px mx-2 bg-slate-700"></div>
 
               {user && user.name ? (
                 <div className="flex items-center gap-4 pl-2">
-                  <Link href="/dashboard" className={`flex items-center gap-3 group ${scrolled ? 'text-slate-800' : 'text-white'}`}>
+                  <Link href="/dashboard" className="flex items-center gap-3 group text-white">
                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
                       <UserIcon size={16} />
                     </div>
@@ -107,11 +107,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               ) : (
                 <Link 
                   href="/login" 
-                  className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all ${
-                    scrolled 
-                      ? 'bg-slate-900 text-white hover:bg-slate-800 hover:shadow-lg' 
-                      : 'bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-slate-900'
-                  }`}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-slate-900"
                 >
                   <LogIn size={14} />
                   <span>Área do Aluno</span>
@@ -121,7 +117,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             {/* Mobile Menu Button */}
             <button 
-              className={`md:hidden p-2 rounded-lg transition-colors ${scrolled || isMobileMenuOpen ? 'text-slate-900 hover:bg-slate-100' : 'text-white hover:bg-white/10'}`}
+              className="md:hidden p-2 rounded-lg transition-colors text-white hover:bg-white/10"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
