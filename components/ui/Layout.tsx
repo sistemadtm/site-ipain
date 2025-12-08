@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user, setUser }) => {
     navigate('/');
   };
 
-  const NavLink = ({ to, label, icon: Icon }: { to: string; label: string; icon?: any }) => {
+  const NavLink = ({ to, label }: { to: string; label: string; icon?: any }) => {
     const isActive = location.pathname === to;
     return (
       <Link

@@ -1,4 +1,4 @@
-import { FileText, Shield, AlertCircle } from 'lucide-react';
+import { FileText, AlertCircle } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

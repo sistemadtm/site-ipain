@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from 'lucide-react';
-import type { Metadata } from 'next';
+import { Mail, Phone, Send, MessageSquare, Clock } from 'lucide-react';
 
 export default function Contato() {
   const [formData, setFormData] = useState({

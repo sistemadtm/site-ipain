@@ -1,6 +1,6 @@
 'use client';
 
-import { User, Settings, FileText, MapPin } from 'lucide-react';
+import { User, Settings,  MapPin } from 'lucide-react';
 
 export default function Dashboard() {
   return (

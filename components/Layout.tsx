@@ -34,27 +34,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     router.push('/');
   };
 
-  const NavLink = ({ to, label }: { to: string; label: string }) => {
-    const isActive = pathname === to;
-    return (
-      <Link
-        href={to}
-        className={`flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 relative group ${
-          isActive 
-            ? scrolled ? 'text-primary' : 'text-accent' 
-            : scrolled ? 'text-slate-600 hover:text-primary' : 'text-gray-200 hover:text-white'
-        }`}
-        onClick={() => setIsMobileMenuOpen(false)}
-      >
-        {label}
-        <span className={`absolute -bottom-1 left-0 right-0 mx-auto h-0.5 transition-all duration-300 ${
-          isActive 
-            ? 'w-full ' + (scrolled ? 'bg-primary' : 'bg-accent') 
-            : 'w-0 group-hover:w-full ' + (scrolled ? 'bg-primary' : 'bg-white')
-        }`}></span>
-      </Link>
-    );
-  };
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-paper">

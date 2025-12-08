@@ -1,4 +1,4 @@
-import { MapPin, Phone, Mail, Globe, Award, Calendar, CheckCircle, ArrowLeft, Star } from 'lucide-react';
+import { MapPin, Phone, Mail, Globe, Award, CheckCircle, ArrowLeft, Star } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 

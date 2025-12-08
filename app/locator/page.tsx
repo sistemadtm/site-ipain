@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { MapPin, User as UserIcon, ArrowRight, Filter, LayoutList, Map as MapIcon, Plus, Minus, Maximize, LocateFixed, Navigation, Stethoscope } from 'lucide-react';
+import { MapPin, ArrowRight, Filter, LayoutList, Map as MapIcon, Plus, Minus, Maximize, Stethoscope } from 'lucide-react';
 import { BrazilianMap } from '@/components/BrazilianMap';
 
 // Todos os estados brasileiros
