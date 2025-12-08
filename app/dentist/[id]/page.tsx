@@ -3,8 +3,30 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 // Mock data - você pode substituir por dados reais depois
-const getDentistById = (id: string) => {
-  const dentists: Record<string, any> = {
+interface Dentist {
+  id: string;
+  name: string;
+  cro: string;
+  avatarUrl: string;
+  specialties: string[];
+  bio: string;
+  education: string[];
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+  };
+  phone: string;
+  email: string;
+  website: string;
+  isRemoteCapable: boolean;
+  rating: number;
+  reviewCount: number;
+}
+
+const getDentistById = (id: string): Dentist | null => {
+  const dentists: Record<string, Dentist> = {
     '1': {
       id: '1',
       name: 'Dra. Ana Silva',

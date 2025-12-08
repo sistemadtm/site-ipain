@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { MapPin, BookOpen, LogIn, Menu, X, User as UserIcon, LogOut, GraduationCap, ChevronRight, Home } from 'lucide-react';
 
 interface LayoutProps {
@@ -16,18 +16,10 @@ interface UserType {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const [scrolled, setScrolled] = React.useState(false);
-  const pathname = usePathname();
   const router = useRouter();
 
   // Mock user - você pode substituir por contexto/estado global depois
-  const user: UserType | null = null;
-
-  React.useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const user = null as UserType | null;
 
   const handleLogout = () => {
     // userService.logout();
@@ -71,7 +63,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               
               <div className="h-6 w-px mx-2 bg-slate-700"></div>
 
-              {user && user.name ? (
+              {user ? (
                 <div className="flex items-center gap-4 pl-2">
                   <Link href="/dashboard" className="flex items-center gap-3 group text-white">
                     <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
@@ -122,7 +114,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </nav>
             
             <div className="mt-8 pt-8 border-t border-white/10">
-              {user && user.name ? (
+              {user ? (
                 <div className="bg-white/5 rounded-2xl p-6">
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-serif">

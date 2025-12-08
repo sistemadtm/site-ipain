@@ -3,8 +3,19 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 // Mock data - você pode substituir por dados reais depois
-const getPostBySlug = (slug: string) => {
-  const posts: Record<string, any> = {
+interface Post {
+  id: number;
+  slug: string;
+  title: string;
+  summary: string;
+  imageUrl: string;
+  category: string;
+  createdAt: string;
+  content: string;
+}
+
+const getPostBySlug = (slug: string): Post | null => {
+  const posts: Record<string, Post> = {
     'dtm-diagnostico': {
       id: 1,
       slug: 'dtm-diagnostico',
