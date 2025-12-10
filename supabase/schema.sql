@@ -51,15 +51,13 @@ CREATE TABLE dentists (
   cro_number TEXT UNIQUE NOT NULL,
   specialties TEXT[], -- Array de especialidades
   is_volunteer BOOLEAN DEFAULT false,
-  service_location_id UUID REFERENCES service_locations(id),
   bio TEXT,
-  experience_years INTEGER,
-  consultation_fee DECIMAL(10,2),
-  accepts_insurance BOOLEAN DEFAULT false,
-  available_days TEXT[], -- Array com dias da semana
-  available_hours_start TIME,
-  available_hours_end TIME,
   is_active BOOLEAN DEFAULT true,
+  -- Dados de contato e localização
+  phone TEXT,
+  address TEXT,
+  city TEXT,
+  state TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -171,7 +169,10 @@ CREATE POLICY "Admins can view all profiles" ON profiles FOR SELECT USING (
 );
 
 -- Policies para dentists
-CREATE POLICY "Anyone can view active dentists" ON dentists FOR SELECT USING (is_active = true);
+CREATE POLICY "Anyone can view active dentists or own profile" ON dentists FOR SELECT USING (
+  is_active = true OR user_id = auth.uid()
+);
+CREATE POLICY "Users can create dentist profile" ON dentists FOR INSERT WITH CHECK (user_id = auth.uid());
 CREATE POLICY "Dentists can update their own profile" ON dentists FOR UPDATE USING (
   user_id = auth.uid()
 );
@@ -182,11 +183,12 @@ CREATE POLICY "Admins can manage all dentists" ON dentists FOR ALL USING (
 -- Policies para patients
 CREATE POLICY "Patients can view their own data" ON patients FOR SELECT USING (user_id = auth.uid());
 CREATE POLICY "Patients can update their own data" ON patients FOR UPDATE USING (user_id = auth.uid());
-CREATE POLICY "Dentists can view their patients" ON patients FOR SELECT USING (
+CREATE POLICY "Patients can create their own profile" ON patients FOR INSERT WITH CHECK (user_id = auth.uid());
+CREATE POLICY "Dentists can view patients in their service location" ON patients FOR SELECT USING (
   EXISTS (
-    SELECT 1 FROM appointments a 
-    JOIN dentists d ON a.dentist_id = d.id 
-    WHERE a.patient_id = patients.id AND d.user_id = auth.uid()
+    SELECT 1 FROM dentists d 
+    WHERE d.user_id = auth.uid() 
+    AND d.is_active = true
   )
 );
 

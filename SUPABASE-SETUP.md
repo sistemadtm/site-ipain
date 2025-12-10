@@ -33,10 +33,16 @@ SUPABASE_SERVICE_ROLE_KEY=sua-service-role-key
 
 ## 3. Executar o Schema do Banco
 
+### Para Banco Novo:
 1. No dashboard do Supabase, vá em **SQL Editor**
 2. Clique em "New query"
 3. Copie todo o conteúdo do arquivo `supabase/schema.sql`
 4. Cole no editor e clique em "Run"
+
+### Para Banco Existente (Migração):
+Se você já tem um banco criado com versão anterior do schema:
+1. Execute o arquivo `supabase/migration-fix-policies.sql`
+2. Isso corrigirá policies problemáticas e adicionará melhorias
 
 Isso criará todas as tabelas, políticas de segurança e dados iniciais.
 
@@ -143,6 +149,12 @@ O banco possui as seguintes tabelas principais:
 ### Erro no schema
 - Execute o SQL novamente
 - Verifique se não há conflitos de nomes
+- Para bancos existentes, use `migration-fix-policies.sql`
+
+### Erro de policies
+- Verifique se aplicou as correções de policies
+- Execute: `SELECT * FROM pg_policies WHERE tablename = 'dentists';`
+- Confirme se o usuário tem role correto na tabela profiles
 
 ## Suporte
 

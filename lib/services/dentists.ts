@@ -118,13 +118,18 @@ export const deleteDentist = async (id: string) => {
 }
 
 export const getDentistByUserId = async (userId: string) => {
+  console.log('[getDentistByUserId] Buscando dentista para userId:', userId)
   const { data, error } = await supabase
     .from('dentists')
     .select('*')
     .eq('user_id', userId)
     .single()
 
-  if (error && error.code !== 'PGRST116') throw error
+  console.log('[getDentistByUserId] Resultado:', { data, error })
+  if (error && error.code !== 'PGRST116') {
+    console.error('[getDentistByUserId] Erro na query:', error)
+    throw error
+  }
   return data
 }
 

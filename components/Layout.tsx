@@ -9,23 +9,18 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-interface UserType {
-  name: string;
-  email: string;
-}
-
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const router = useRouter();
 
-  // Mock user - você pode substituir por contexto/estado global depois
-  const user = null as UserType | null;
+  // Temporariamente sem useAuth para testar
+  const user = null;
+  const loading = false;
+  const isAuthenticated = false;
 
-  const handleLogout = () => {
-    // userService.logout();
+  const handleLogout = async () => {
     router.push('/');
   };
-
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-paper">
@@ -63,27 +58,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               
               <div className="h-6 w-px mx-2 bg-slate-700"></div>
 
-              {user ? (
-                <div className="flex items-center gap-4 pl-2">
-                  <Link href="/dashboard" className="flex items-center gap-3 group text-white">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
-                      <UserIcon size={16} />
-                    </div>
-                    <div className="flex flex-col items-start">
-                      <span className="text-xs font-bold uppercase tracking-wide group-hover:text-accent transition-colors">{user.name.split(' ')[0]}</span>
-                      <span className="text-[9px] opacity-70 uppercase tracking-wider">Painel</span>
-                    </div>
-                  </Link>
-                </div>
-              ) : (
-                <Link 
-                  href="/entrar" 
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-slate-900"
-                >
-                  <LogIn size={14} />
-                  <span>Área do Aluno</span>
-                </Link>
-              )}
+              <Link 
+                href="/entrar" 
+                className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-slate-900"
+              >
+                <LogIn size={14} />
+                <span>Área do Aluno</span>
+              </Link>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -114,38 +95,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </nav>
             
             <div className="mt-8 pt-8 border-t border-white/10">
-              {user ? (
-                <div className="bg-white/5 rounded-2xl p-6">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-serif">
-                      {user.name.charAt(0)}
-                    </div>
-                    <div>
-                       <p className="text-white font-bold text-lg leading-tight">{user.name}</p>
-                       <p className="text-gray-400 text-xs">{user.email}</p>
-                    </div>
-                  </div>
-                  <Link href="/dashboard" className="block w-full text-center bg-primary hover:bg-primary-light text-white py-4 rounded-xl font-bold uppercase tracking-wider mb-3 transition-colors shadow-lg" onClick={() => setIsMobileMenuOpen(false)}>
-                    Acessar Meu Painel
-                  </Link>
-                  <button 
-                    onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                    className="flex items-center justify-center gap-2 w-full text-center text-red-400 py-3 text-sm font-medium hover:text-red-300 transition-colors hover:bg-white/5 rounded-lg"
-                  >
-                    <LogOut size={16} /> Sair da conta
-                  </button>
-                </div>
-              ) : (
-                <Link href="/entrar" className="flex items-center justify-center gap-2 w-full text-center bg-white text-slate-900 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-lg" onClick={() => setIsMobileMenuOpen(false)}>
-                  <LogIn size={18} /> Área do Aluno
-                </Link>
-              )}
+              <Link href="/entrar" className="flex items-center justify-center gap-2 w-full text-center bg-white text-slate-900 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                <LogIn size={18} /> Área do Aluno
+              </Link>
             </div>
           </div>
         </div>
       )}
 
-      <main className="flex-grow pt-0">
+      <main className="grow pt-0">
         {children}
       </main>
 
@@ -193,4 +151,5 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
+export { Layout };
 export default Layout;

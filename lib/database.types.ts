@@ -129,15 +129,12 @@ export interface Database {
           cro_number: string
           specialties: string[] | null
           is_volunteer: boolean
-          service_location_id: string | null
           bio: string | null
-          experience_years: number | null
-          consultation_fee: number | null
-          accepts_insurance: boolean
-          available_days: string[] | null
-          available_hours_start: string | null
-          available_hours_end: string | null
           is_active: boolean
+          phone: string | null
+          address: string | null
+          city: string | null
+          state: string | null
           created_at: string
           updated_at: string
         }
@@ -147,15 +144,12 @@ export interface Database {
           cro_number: string
           specialties?: string[] | null
           is_volunteer?: boolean
-          service_location_id?: string | null
           bio?: string | null
-          experience_years?: number | null
-          consultation_fee?: number | null
-          accepts_insurance?: boolean
-          available_days?: string[] | null
-          available_hours_start?: string | null
-          available_hours_end?: string | null
           is_active?: boolean
+          phone?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -165,15 +159,12 @@ export interface Database {
           cro_number?: string
           specialties?: string[] | null
           is_volunteer?: boolean
-          service_location_id?: string | null
           bio?: string | null
-          experience_years?: number | null
-          consultation_fee?: number | null
-          accepts_insurance?: boolean
-          available_days?: string[] | null
-          available_hours_start?: string | null
-          available_hours_end?: string | null
           is_active?: boolean
+          phone?: string | null
+          address?: string | null
+          city?: string | null
+          state?: string | null
           created_at?: string
           updated_at?: string
         }

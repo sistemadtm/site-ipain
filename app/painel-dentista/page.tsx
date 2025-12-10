@@ -2,53 +2,180 @@
 
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { getDentistByUserId } from '@/lib/services/dentists'
-import { Button } from '@/components/ui/button'
-import { Calendar, Users, MapPin, Settings, Edit } from 'lucide-react'
-import Link from 'next/link'
+import { useEffect, useState, useCallback } from 'react'
+import { 
+  fetchDentistProfileAction, 
+  loadStatesAction, 
+  getSpecialtiesAction,
+  saveDentistProfileAction,
+  type DentistProfile,
+  type State,
+  type DentistFormData
+} from './actions'
 
-interface DentistProfile {
-  id: string
-  cro_number: string
-  specialties: string[] | null
-  is_volunteer: boolean
-  is_active: boolean
-  bio: string | null
-  available_days: string[] | null
-  service_locations: {
-    name: string
-    type: string
-  } | null
-}
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { AvatarUpload } from '@/components/ui/avatar-upload'
+import { MultiSelect } from '@/components/ui/multi-select'
+import { Save, Loader2 } from 'lucide-react'
+import { SimpleDebug } from '@/components/SimpleDebug'
+
 
 export default function PainelDentistaPage() {
-  const { profile, loading: authLoading } = useAuth()
+  const { profile, loading: authLoading, refreshProfile } = useAuth()
   const router = useRouter()
   const [dentist, setDentist] = useState<DentistProfile | null>(null)
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [states, setStates] = useState<State[]>([])
+  const [specialties, setSpecialties] = useState<string[]>([])
+  
+  // Form data
+  const [formData, setFormData] = useState<DentistFormData>({
+    full_name: '',
+    avatar_url: '',
+    cro_number: '',
+    specialties: [],
+    is_volunteer: false,
+    is_active: true,
+    bio: '',
+    selectedState: '',
+    city: '',
+    address: '',
+    phone: ''
+  })
 
   useEffect(() => {
-    if (!authLoading && (!profile || profile.role !== 'dentist')) {
+    console.log('[PainelDentista] useEffect executado, authLoading:', authLoading, 'profile:', profile)
+    
+    if (authLoading) {
+      console.log('[PainelDentista] Ainda carregando auth, retornando')
+      return // Ainda carregando auth
+    }
+
+    if (!profile || profile.role !== 'dentist') {
+      console.log('[PainelDentista] Sem profile ou não é dentista, redirecionando')
       router.push('/entrar')
       return
     }
 
     if (profile && profile.role === 'dentist') {
+      console.log('[PainelDentista] Profile de dentista encontrado, carregando dados')
       fetchDentistProfile()
+      loadStates()
+      loadSpecialties()
     }
   }, [profile, authLoading, router])
 
-  const fetchDentistProfile = async () => {
-    if (!profile) return
+  const loadStates = async () => {
+    try {
+      const result = await loadStatesAction()
+      if (result.success && result.data) {
+        setStates(result.data)
+      } else {
+        console.error('Erro ao carregar estados:', result.error)
+      }
+    } catch (error) {
+      console.error('Erro ao carregar estados:', error)
+    }
+  }
+
+  const loadSpecialties = async () => {
+    try {
+      const result = await getSpecialtiesAction()
+      if (result.success && result.data) {
+        setSpecialties(result.data)
+      } else {
+        console.error('Erro ao carregar especialidades:', result.error)
+      }
+    } catch (error) {
+      console.error('Erro ao carregar especialidades:', error)
+    }
+  }
+
+  const handleStateChange = (stateId: string) => {
+    setFormData(prev => ({ 
+      ...prev, 
+      selectedState: stateId
+    }))
+  }
+
+
+
+  const fetchDentistProfile = useCallback(async () => {
+    console.log('[PainelDentista] fetchDentistProfile iniciado, profile:', profile)
+    
+    if (!profile) {
+      console.log('[PainelDentista] Sem profile, definindo loading como false')
+      setLoading(false)
+      return
+    }
 
     try {
-      const dentistData = await getDentistByUserId(profile.id)
-      setDentist(dentistData)
+      console.log('[PainelDentista] Buscando dados do dentista para userId:', profile.id)
+      const result = await fetchDentistProfileAction(profile.id)
+      
+      if (result.success) {
+        console.log('[PainelDentista] Dados do dentista recebidos:', result.data)
+        setDentist(result.data || null)
+        
+        // Preencher formulário com dados existentes
+        console.log('[PainelDentista] Preenchendo formulário com dados:', result.data)
+        
+        setFormData({
+          full_name: profile.full_name || '',
+          avatar_url: profile.avatar_url || '',
+          cro_number: result.data?.cro_number || '',
+          specialties: result.data?.specialties || [],
+          is_volunteer: result.data?.is_volunteer || false,
+          is_active: result.data?.is_active || true,
+          bio: result.data?.bio || '',
+          selectedState: result.data?.state || '',
+          city: result.data?.city || '',
+          address: result.data?.address || '',
+          phone: result.data?.phone || ''
+        })
+        
+        console.log('[PainelDentista] Formulário preenchido com sucesso')
+      } else {
+        console.error('[PainelDentista] Erro ao carregar perfil:', result.error)
+      }
     } catch (error) {
-      console.error('Erro ao carregar perfil do dentista:', error)
+      console.error('[PainelDentista] Erro ao carregar perfil do dentista:', error)
     } finally {
+      console.log('[PainelDentista] Definindo loading como false')
       setLoading(false)
+    }
+  }, [profile])
+
+  const handleSave = async () => {
+    if (!profile) return
+
+    setSaving(true)
+    try {
+      const result = await saveDentistProfileAction(
+        profile.id,
+        formData,
+        dentist?.id
+      )
+
+      if (result.success) {
+        // Recarregar dados
+        await fetchDentistProfile()
+        await refreshProfile()
+        alert(result.message)
+      } else {
+        alert(result.error)
+      }
+    } catch (error) {
+      console.error('Erro ao salvar:', error)
+      alert('Erro ao salvar perfil. Tente novamente.')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -64,211 +191,217 @@ export default function PainelDentistaPage() {
     return null
   }
 
-  if (!dentist) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">
-              Complete seu perfil profissional
-            </h1>
-            <p className="text-gray-600 mb-6">
-              Para começar a usar a plataforma, você precisa completar seu perfil de dentista.
-            </p>
-            <Link href="/perfil/completar">
-              <Button>Completar Perfil</Button>
-            </Link>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
+      <SimpleDebug />
+      
+      {/* Header */}
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6">
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Olá, Dr(a). {profile.full_name}
+                  Painel do Dentista
                 </h1>
                 <p className="text-gray-600">
-                  CRO: {dentist.cro_number} • {dentist.is_volunteer ? 'Voluntário' : 'Particular'}
+                  Gerencie seu perfil profissional
                 </p>
               </div>
-              <div className="flex gap-2">
-                <Link href="/perfil/editar">
-                  <Button variant="outline">
-                    <Edit className="w-4 h-4 mr-2" />
-                    Editar Perfil
-                  </Button>
-                </Link>
-                <Link href="/configuracoes">
-                  <Button variant="outline">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Configurações
-                  </Button>
-                </Link>
-              </div>
+              <Button 
+                onClick={handleSave} 
+                disabled={saving}
+                className="flex items-center gap-2"
+              >
+                {saving ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+                {saving ? 'Salvando...' : 'Salvar Alterações'}
+              </Button>
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-3 rounded-lg bg-blue-100">
-                <Users className="w-6 h-6 text-blue-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Visualizações do Perfil</p>
-                <p className="text-2xl font-bold text-gray-900">0</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-3 rounded-lg bg-green-100">
-                <MapPin className="w-6 h-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Local de Atendimento</p>
-                <p className="text-sm font-bold text-gray-900">
-                  {dentist.service_locations?.name || 'Não definido'}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="p-3 rounded-lg bg-purple-100">
-                <Calendar className="w-6 h-6 text-purple-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-600">Disponibilidade</p>
-                <p className="text-sm font-bold text-gray-900">
-                  {dentist.available_days?.length || 0} dias
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow">
-              <div className="p-6 border-b">
-                <h2 className="text-lg font-semibold text-gray-900">Informações de Contato</h2>
-              </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-gray-700">Como os pacientes podem te encontrar:</h3>
-                    <div className="mt-2 space-y-2">
-                      <p className="text-sm text-gray-600">
-                        • Seu perfil aparece na busca pública de dentistas
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        • Pacientes podem ver suas especialidades e disponibilidade
-                      </p>
-                      <p className="text-sm text-gray-600">
-                        • Eles entrarão em contato diretamente com você
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h4 className="text-sm font-medium text-blue-900">Dica:</h4>
-                    <p className="text-sm text-blue-700 mt-1">
-                      Mantenha seu perfil atualizado com horários disponíveis e informações de contato para receber mais solicitações de pacientes.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-6">
+        {/* Main Form */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Profile Section */}
+          <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Seu Perfil</h3>
-              <div className="space-y-3">
+              <h3 className="text-lg font-semibold text-gray-900 mb-6">Foto e Informações Básicas</h3>
+              
+              <div className="space-y-6">
+                <AvatarUpload
+                  currentAvatar={formData.avatar_url}
+                  userId={profile.id}
+                  onAvatarChange={(url) => setFormData(prev => ({ ...prev, avatar_url: url || '' }))}
+                />
+
                 <div>
-                  <p className="text-sm text-gray-600">Status</p>
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                    dentist.is_active
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  }`}>
-                    {dentist.is_active ? 'Ativo' : 'Inativo'}
-                  </span>
+                  <Label htmlFor="full_name">Nome Completo</Label>
+                  <Input
+                    id="full_name"
+                    value={formData.full_name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
+                    placeholder="Dr(a). Seu Nome"
+                  />
                 </div>
-                
-                {dentist.specialties && dentist.specialties.length > 0 && (
-                  <div>
-                    <p className="text-sm text-gray-600">Especialidades</p>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {dentist.specialties.slice(0, 3).map((specialty) => (
-                        <span
-                          key={specialty}
-                          className="inline-flex px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded"
-                        >
-                          {specialty}
-                        </span>
-                      ))}
-                      {dentist.specialties.length > 3 && (
-                        <span className="inline-flex px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded">
-                          +{dentist.specialties.length - 3} mais
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                )}
 
-                {dentist.bio && (
-                  <div>
-                    <p className="text-sm text-gray-600">Biografia</p>
-                    <p className="text-sm text-gray-900 mt-1">
-                      {dentist.bio.length > 100 
-                        ? `${dentist.bio.substring(0, 100)}...`
-                        : dentist.bio
-                      }
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+                <div>
+                  <Label htmlFor="cro_number">Número do CRO</Label>
+                  <Input
+                    id="cro_number"
+                    value={formData.cro_number}
+                    onChange={(e) => setFormData(prev => ({ ...prev, cro_number: e.target.value }))}
+                    placeholder="Ex: CRO-SP 12345"
+                  />
+                </div>
 
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Ações Rápidas</h3>
-              <div className="space-y-3">
-                <Link href="/perfil/editar" className="block">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Edit className="w-4 h-4 mr-2" />
-                    Editar Perfil
-                  </Button>
-                </Link>
-                <Link href="/configuracoes" className="block">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Configurações
-                  </Button>
-                </Link>
-                <a href="/" className="block">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Users className="w-4 h-4 mr-2" />
-                    Ver Site Público
-                  </Button>
-                </a>
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="is_volunteer"
+                    checked={formData.is_volunteer}
+                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_volunteer: checked }))}
+                  />
+                  <Label htmlFor="is_volunteer">Atendimento Voluntário</Label>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="is_active"
+                    checked={formData.is_active}
+                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_active: checked }))}
+                  />
+                  <Label htmlFor="is_active">Perfil Ativo</Label>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Professional Info */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-6">Informações Profissionais</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="md:col-span-2">
+                  <Label>Especialidades</Label>
+                  <MultiSelect
+                    options={specialties}
+                    value={formData.specialties}
+                    onChange={(specialties) => setFormData(prev => ({ ...prev, specialties }))}
+                    placeholder="Selecione suas especialidades"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <Label htmlFor="bio">Biografia Profissional</Label>
+                  <Textarea
+                    id="bio"
+                    value={formData.bio}
+                    onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                    placeholder="Conte um pouco sobre sua experiência e formação..."
+                    rows={4}
+                  />
+                </div>
+
+
+
+                <div>
+                  <Label htmlFor="phone">Telefone</Label>
+                  <Input
+                    id="phone"
+                    value={formData.phone}
+                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                    placeholder="(11) 99999-9999"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="selectedState">Estado</Label>
+                  <Select value={formData.selectedState} onValueChange={handleStateChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione o estado" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {states.map((state) => (
+                        <SelectItem key={state.name} value={state.name}>
+                          {state.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <Label htmlFor="city">Cidade</Label>
+                  <Input
+                    id="city"
+                    value={formData.city}
+                    onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                    placeholder="Digite sua cidade"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <Label htmlFor="address">Endereço</Label>
+                  <Input
+                    id="address"
+                    value={formData.address}
+                    onChange={(e) => setFormData(prev => ({ ...prev, address: e.target.value }))}
+                    placeholder="Rua, número, bairro"
+                  />
+                </div>
+              </div>
+            </div>
+
+
+          </div>
         </div>
+
+        {/* Save Button (Always Visible) */}
+        <div className="mt-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex justify-center">
+              <Button 
+                onClick={handleSave} 
+                disabled={saving}
+                size="lg"
+                className="px-8 py-3 flex items-center gap-2"
+              >
+                {saving ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Save className="w-5 h-5" />
+                )}
+                {saving ? 'Salvando Alterações...' : 'Salvar Todas as Alterações'}
+              </Button>
+            </div>
+            <p className="text-center text-sm text-gray-500 mt-2">
+              Todas as alterações serão salvas automaticamente
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating Save Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button 
+          onClick={handleSave} 
+          disabled={saving}
+          size="lg"
+          className="shadow-lg hover:shadow-xl transition-shadow rounded-full px-6 py-3"
+        >
+          {saving ? (
+            <Loader2 className="w-5 h-5 animate-spin mr-2" />
+          ) : (
+            <Save className="w-5 h-5 mr-2" />
+          )}
+          {saving ? 'Salvando...' : 'Salvar'}
+        </Button>
       </div>
     </div>
   )

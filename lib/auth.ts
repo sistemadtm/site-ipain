@@ -59,16 +59,23 @@ export const getCurrentUser = async () => {
 }
 
 export const getCurrentProfile = async () => {
+  console.log('[getCurrentProfile] Iniciando...')
   const user = await getCurrentUser()
+  console.log('[getCurrentProfile] User:', user ? { id: user.id, email: user.email } : null)
   if (!user) return null
 
+  console.log('[getCurrentProfile] Buscando perfil na tabela profiles para user:', user.id)
   const { data, error } = await supabase
     .from('profiles')
     .select('*')
     .eq('id', user.id)
     .single()
 
-  if (error) throw error
+  console.log('[getCurrentProfile] Resultado da query:', { data, error })
+  if (error) {
+    console.error('[getCurrentProfile] Erro na query:', error)
+    throw error
+  }
   return data
 }
 
