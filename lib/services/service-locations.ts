@@ -62,7 +62,7 @@ export const getServiceLocationById = async (id: string) => {
 }
 
 export const createServiceLocation = async (location: ServiceLocationInsert) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('service_locations')
     .insert(location)
     .select()
@@ -73,7 +73,7 @@ export const createServiceLocation = async (location: ServiceLocationInsert) => 
 }
 
 export const updateServiceLocation = async (id: string, updates: ServiceLocationUpdate) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('service_locations')
     .update(updates)
     .eq('id', id)

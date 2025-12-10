@@ -86,7 +86,7 @@ export const getDentistById = async (id: string) => {
 }
 
 export const createDentist = async (dentist: DentistInsert) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('dentists')
     .insert(dentist)
     .select()
@@ -97,7 +97,7 @@ export const createDentist = async (dentist: DentistInsert) => {
 }
 
 export const updateDentist = async (id: string, updates: DentistUpdate) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('dentists')
     .update(updates)
     .eq('id', id)

@@ -2,6 +2,8 @@ import { supabase } from './supabase'
 import { Database } from './database.types'
 
 export type Profile = Database['public']['Tables']['profiles']['Row']
+export type ProfileInsert = Database['public']['Tables']['profiles']['Insert']
+export type ProfileUpdate = Database['public']['Tables']['profiles']['Update']
 export type UserRole = Profile['role']
 
 export const signUp = async (email: string, password: string, fullName: string) => {
@@ -19,14 +21,16 @@ export const signUp = async (email: string, password: string, fullName: string) 
 
   // Criar perfil do usuário
   if (data.user) {
-    const { error: profileError } = await supabase
+    const profileData: ProfileInsert = {
+      id: data.user.id,
+      email: data.user.email!,
+      full_name: fullName,
+      role: 'patient', // Padrão é paciente
+    }
+
+    const { error: profileError } = await (supabase as any)
       .from('profiles')
-      .insert({
-        id: data.user.id,
-        email: data.user.email!,
-        full_name: fullName,
-        role: 'patient', // Padrão é paciente
-      })
+      .insert(profileData)
 
     if (profileError) throw profileError
   }
@@ -68,11 +72,11 @@ export const getCurrentProfile = async () => {
   return data
 }
 
-export const updateProfile = async (updates: Partial<Profile>) => {
+export const updateProfile = async (updates: ProfileUpdate) => {
   const user = await getCurrentUser()
   if (!user) throw new Error('Usuário não autenticado')
 
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('profiles')
     .update(updates)
     .eq('id', user.id)

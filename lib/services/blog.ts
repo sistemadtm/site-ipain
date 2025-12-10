@@ -104,7 +104,7 @@ export const getBlogPostBySlug = async (slug: string) => {
 }
 
 export const createBlogPost = async (post: BlogPostInsert) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('blog_posts')
     .insert(post)
     .select()
@@ -115,7 +115,7 @@ export const createBlogPost = async (post: BlogPostInsert) => {
 }
 
 export const updateBlogPost = async (id: string, updates: BlogPostUpdate) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('blog_posts')
     .update(updates)
     .eq('id', id)
@@ -136,7 +136,7 @@ export const deleteBlogPost = async (id: string) => {
 }
 
 export const publishBlogPost = async (id: string) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('blog_posts')
     .update({
       status: 'published',
@@ -178,7 +178,7 @@ export const getBlogCategoryById = async (id: string) => {
 }
 
 export const createBlogCategory = async (category: BlogCategoryInsert) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('blog_categories')
     .insert(category)
     .select()
@@ -189,7 +189,7 @@ export const createBlogCategory = async (category: BlogCategoryInsert) => {
 }
 
 export const updateBlogCategory = async (id: string, updates: BlogCategoryUpdate) => {
-  const { data, error } = await supabase
+  const { data, error } = await (supabase as any)
     .from('blog_categories')
     .update(updates)
     .eq('id', id)
