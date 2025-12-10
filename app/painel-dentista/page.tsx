@@ -23,6 +23,7 @@ import { AvatarUpload } from '@/components/ui/avatar-upload'
 import { MultiSelect } from '@/components/ui/multi-select'
 import { Save, Loader2 } from 'lucide-react'
 import { SimpleDebug } from '@/components/SimpleDebug'
+import { toast } from 'sonner'
 
 
 export default function PainelDentistaPage() {
@@ -125,6 +126,7 @@ export default function PainelDentistaPage() {
         
         // Preencher formulário com dados existentes
         console.log('[PainelDentista] Preenchendo formulário com dados:', result.data)
+        console.log('[PainelDentista] is_active do banco:', result.data?.is_active, typeof result.data?.is_active)
         
         setFormData({
           full_name: profile.full_name || '',
@@ -132,7 +134,7 @@ export default function PainelDentistaPage() {
           cro_number: result.data?.cro_number || '',
           specialties: result.data?.specialties || [],
           is_volunteer: result.data?.is_volunteer || false,
-          is_active: result.data?.is_active || true,
+          is_active: result.data?.is_active !== undefined ? result.data.is_active : true,
           bio: result.data?.bio || '',
           selectedState: result.data?.state || '',
           city: result.data?.city || '',
@@ -155,6 +157,9 @@ export default function PainelDentistaPage() {
   const handleSave = async () => {
     if (!profile) return
 
+    console.log('[handleSave] Dados do formulário antes de salvar:', formData)
+    console.log('[handleSave] is_active value:', formData.is_active, typeof formData.is_active)
+
     setSaving(true)
     try {
       const result = await saveDentistProfileAction(
@@ -167,13 +172,13 @@ export default function PainelDentistaPage() {
         // Recarregar dados
         await fetchDentistProfile()
         await refreshProfile()
-        alert(result.message)
+        toast.success(result.message)
       } else {
-        alert(result.error)
+        toast.error(result.error)
       }
     } catch (error) {
       console.error('Erro ao salvar:', error)
-      alert('Erro ao salvar perfil. Tente novamente.')
+      toast.error('Erro ao salvar perfil. Tente novamente.')
     } finally {
       setSaving(false)
     }
@@ -273,7 +278,10 @@ export default function PainelDentistaPage() {
                   <Switch
                     id="is_active"
                     checked={formData.is_active}
-                    onCheckedChange={(checked) => setFormData(prev => ({ ...prev, is_active: checked }))}
+                    onCheckedChange={(checked) => {
+                      console.log('[Switch] is_active alterado para:', checked, typeof checked)
+                      setFormData(prev => ({ ...prev, is_active: checked }))
+                    }}
                   />
                   <Label htmlFor="is_active">Perfil Ativo</Label>
                 </div>

@@ -97,6 +97,8 @@ export const createDentist = async (dentist: DentistInsert) => {
 }
 
 export const updateDentist = async (id: string, updates: DentistUpdate) => {
+  console.log('[updateDentist] Atualizando dentista:', id, 'com dados:', updates)
+  
   const { data, error } = await (supabase as any)
     .from('dentists')
     .update(updates)
@@ -104,6 +106,8 @@ export const updateDentist = async (id: string, updates: DentistUpdate) => {
     .select()
     .single()
 
+  console.log('[updateDentist] Resultado:', { data, error })
+  
   if (error) throw error
   return data
 }

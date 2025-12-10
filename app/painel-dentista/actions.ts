@@ -130,15 +130,20 @@ export async function saveDentistProfileAction(
       state: formData.selectedState || null
     }
 
+    console.log('[Actions] Dados do dentista a serem salvos:', dentistData)
+    console.log('[Actions] is_active value:', formData.is_active, typeof formData.is_active)
+
     if (dentistId) {
       // Atualizar perfil existente
-      await updateDentist(dentistId, dentistData)
+      const result = await updateDentist(dentistId, dentistData)
+      console.log('[Actions] Resultado da atualização:', result)
     } else {
       // Criar novo perfil de dentista
-      await createDentist({
+      const result = await createDentist({
         ...dentistData,
         user_id: userId
       })
+      console.log('[Actions] Resultado da criação:', result)
     }
 
     // Revalidar a página para atualizar os dados

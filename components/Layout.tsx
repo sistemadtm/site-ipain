@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MapPin, BookOpen, LogIn, Menu, X, User as UserIcon, LogOut, GraduationCap, ChevronRight, Home } from 'lucide-react';
+import { Toaster } from '@/components/ui/sonner';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -106,6 +107,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <main className="grow pt-0">
         {children}
       </main>
+      
+      <Toaster />
 
       <footer className="bg-slate-900 text-gray-400 py-16 border-t border-slate-800">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
