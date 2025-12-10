@@ -32,7 +32,7 @@ export function Header() {
             <Link href="/blog" className="text-sm text-gray-300 hover:text-white transition font-medium">
               Blog
             </Link>
-            <Link href="/login">
+            <Link href="/entrar">
               <Button variant="outline" size="sm" className="rounded-full border-gray-700 text-gray-300 hover:bg-white hover:text-slate-900 hover:border-white">
                 Área do Profissional
               </Button>
@@ -79,7 +79,7 @@ export function Header() {
                 Blog
               </Link>
               <Link 
-                href="/login"
+                href="/entrar"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Button variant="outline" size="sm" className="rounded-full w-full border-gray-700 text-gray-300 hover:bg-white hover:text-slate-900">

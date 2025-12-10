@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
   
   return {
-    title: `${dentist.name} - ${dentist.cro} | Instituto Indicador`,
+    title: `${dentist.name} - ${dentist.cro} | Indicador Profissional`,
     description: dentist.bio,
   };
 }
@@ -80,8 +80,8 @@ export default function DentistProfile({ params }: { params: { id: string } }) {
       <div className="min-h-screen bg-paper flex items-center justify-center py-20">
         <div className="text-center">
           <h1 className="text-4xl font-serif text-slate-900 mb-4">Profissional não encontrado</h1>
-          <Link href="/locator" className="text-primary hover:text-accent transition-colors">
-            Voltar para o localizador
+          <Link href="/dentistas" className="text-primary hover:text-accent transition-colors">
+            Voltar para a busca de dentistas
           </Link>
         </div>
       </div>
@@ -92,16 +92,16 @@ export default function DentistProfile({ params }: { params: { id: string } }) {
     <div className="bg-paper min-h-screen">
       {/* Header */}
       <div className="bg-slate-900 pt-32 pb-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900 to-slate-800"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-slate-900 to-slate-800"></div>
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/grid-noise.png')] opacity-10"></div>
         
         <div className="container mx-auto px-4 relative z-10">
           <Link 
-            href="/locator"
+            href="/dentistas"
             className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-8 transition-colors"
           >
             <ArrowLeft size={20} />
-            Voltar para o localizador
+            Voltar para a busca de dentistas
           </Link>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function DentistProfile({ params }: { params: { id: string } }) {
                 </div>
                 
                 {/* Info */}
-                <div className="flex-grow">
+                <div className="grow">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h1 className="text-3xl md:text-4xl font-serif text-slate-900 mb-2">{dentist.name}</h1>
@@ -246,7 +246,7 @@ export default function DentistProfile({ params }: { params: { id: string } }) {
           </div>
 
           {/* Verification Badge */}
-          <div className="mt-8 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-8 border border-primary/20">
+          <div className="mt-8 bg-linear-to-r from-primary/10 to-accent/10 rounded-2xl p-8 border border-primary/20">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                 <CheckCircle size={32} className="text-primary" />
@@ -254,8 +254,8 @@ export default function DentistProfile({ params }: { params: { id: string } }) {
               <div>
                 <h3 className="text-xl font-serif text-slate-900 mb-1">Profissional Verificado</h3>
                 <p className="text-gray-600">
-                  Este profissional foi verificado e credenciado pelo Instituto Indicador, 
-                  atendendo aos mais altos padrões de qualificação em Dor Orofacial.
+                  Este profissional foi verificado e credenciado pelo Indicador Profissional, 
+                  atendendo aos mais altos padrões de qualificação.
                 </p>
               </div>
             </div>

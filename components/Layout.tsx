@@ -54,7 +54,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Link href="/" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
                 Início
               </Link>
-              <Link href="/locator" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
+              <Link href="/dentistas" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
                 Rede Credenciada
               </Link>
               <Link href="/blog" className="flex items-center gap-2 px-3 py-2 text-sm font-bold tracking-wide transition-all duration-300 text-gray-300 hover:text-white">
@@ -77,7 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
               ) : (
                 <Link 
-                  href="/login" 
+                  href="/entrar" 
                   className="flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all bg-white/10 backdrop-blur-md text-white border border-white/30 hover:bg-white hover:text-slate-900"
                 >
                   <LogIn size={14} />
@@ -105,7 +105,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Link href="/" className="flex items-center justify-between text-gray-200 hover:text-accent hover:bg-white/5 p-4 rounded-xl border-b border-white/5 transition-all" onClick={() => setIsMobileMenuOpen(false)}>
                 <span className="flex items-center gap-4 font-bold"><Home size={20} /> Início</span> <ChevronRight size={16} />
               </Link>
-              <Link href="/locator" className="flex items-center justify-between text-gray-200 hover:text-accent hover:bg-white/5 p-4 rounded-xl border-b border-white/5 transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link href="/dentistas" className="flex items-center justify-between text-gray-200 hover:text-accent hover:bg-white/5 p-4 rounded-xl border-b border-white/5 transition-all" onClick={() => setIsMobileMenuOpen(false)}>
                 <span className="flex items-center gap-4 font-bold"><MapPin size={20} /> Rede Credenciada</span> <ChevronRight size={16} />
               </Link>
               <Link href="/blog" className="flex items-center justify-between text-gray-200 hover:text-accent hover:bg-white/5 p-4 rounded-xl border-b border-white/5 transition-all" onClick={() => setIsMobileMenuOpen(false)}>
@@ -136,7 +136,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </button>
                 </div>
               ) : (
-                <Link href="/login" className="flex items-center justify-center gap-2 w-full text-center bg-white text-slate-900 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                <Link href="/entrar" className="flex items-center justify-center gap-2 w-full text-center bg-white text-slate-900 py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-gray-100 transition-colors shadow-lg" onClick={() => setIsMobileMenuOpen(false)}>
                   <LogIn size={18} /> Área do Aluno
                 </Link>
               )}
@@ -165,9 +165,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div>
               <h4 className="text-white font-serif mb-6 text-lg border-l-2 border-accent pl-3">Plataforma</h4>
               <ul className="space-y-3 text-sm font-medium">
-                <li><Link href="/locator" className="hover:text-white transition-colors block py-1">Rede Credenciada</Link></li>
+                <li><Link href="/dentistas" className="hover:text-white transition-colors block py-1">Rede Credenciada</Link></li>
                 <li><Link href="/blog" className="hover:text-white transition-colors block py-1">Blog</Link></li>
-                <li><Link href="/login" className="hover:text-white transition-colors block py-1">Portal do Membro</Link></li>
+                <li><Link href="/entrar" className="hover:text-white transition-colors block py-1">Portal do Membro</Link></li>
               </ul>
             </div>
             

@@ -3,11 +3,11 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-export default function LocatorRedirect() {
+export default function AdminRedirect() {
   const router = useRouter()
 
   useEffect(() => {
-    router.replace('/dentistas')
+    router.replace('/painel')
   }, [router])
 
   return (

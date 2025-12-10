@@ -136,7 +136,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
              <p className="text-sm text-gray-600 mb-4">
                Trazendo informações baseadas em evidências sobre dor orofacial e odontologia do sono.
              </p>
-             <Link href="/locator" className="block w-full text-center bg-white border border-primary text-primary font-bold py-2 rounded-lg hover:bg-primary hover:text-white transition">
+             <Link href="/dentistas" className="block w-full text-center bg-white border border-primary text-primary font-bold py-2 rounded-lg hover:bg-primary hover:text-white transition">
                Encontrar Especialista
              </Link>
            </div>

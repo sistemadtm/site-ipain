@@ -66,7 +66,7 @@ export default function Home() {
             {/* Primary CTA */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-8">
               <Link 
-                href="/locator" 
+                href="/dentistas" 
                 className="group px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold text-sm shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
               >
                 <Search size={18} />
@@ -203,7 +203,7 @@ export default function Home() {
                Junte-se à rede de referência que valoriza sua formação. Aumente sua visibilidade para pacientes qualificados.
              </p>
              <Link 
-               href="/login"
+               href="/entrar"
                className="inline-flex items-center gap-3 bg-white hover:bg-gray-100 text-slate-900 text-sm font-bold uppercase tracking-widest py-4 px-10 rounded-full transition-all shadow-glow hover:scale-105 transform duration-300"
              >
                <UserCheck size={18} />
